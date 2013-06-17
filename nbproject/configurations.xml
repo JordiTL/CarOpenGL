@@ -4,6 +4,9 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Objects.h</itemPath>
+      <itemPath>load3ds.h</itemPath>
+      <itemPath>loadjpeg.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +15,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Objects.cpp</itemPath>
+      <itemPath>load3ds.c</itemPath>
+      <itemPath>loadjpeg.c</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -31,17 +37,41 @@
     <conf name="Debug" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>default</compilerSet>
+        <compilerSet>MinGW-CODEBLOCKS|MinGW</compilerSet>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>C:/Program Files (x86)/CodeBlocks/MinGW/include</pElem>
+            <pElem>C:/Program Files (x86)/CodeBlocks/MinGW/include/GL</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../../../../../Program Files (x86)/CodeBlocks/MinGW/lib</pElem>
+          </linkerAddLib>
+          <commandLine>-lglui32 -lopengl32 -lglut32 -lglu32 -mWindows</commandLine>
+        </linkerTool>
       </compileType>
+      <item path="Objects.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Objects.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="load3ds.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="load3ds.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="loadjpeg.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="loadjpeg.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>default</compilerSet>
+        <compilerSet>MinGW-CODEBLOCKS|MinGW</compilerSet>
       </toolsSet>
       <compileType>
         <cTool>
@@ -49,6 +79,10 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>C:/Program Files (x86)/CodeBlocks/MinGW/include</pElem>
+            <pElem>C:/Program Files (x86)/CodeBlocks/MinGW/include/GL</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -56,7 +90,25 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../../../../../Program Files (x86)/CodeBlocks/MinGW/lib</pElem>
+          </linkerAddLib>
+          <commandLine>-lglui32 -lopengl32 -lglut32 -lglu32 -mWindows</commandLine>
+        </linkerTool>
       </compileType>
+      <item path="Objects.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Objects.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="load3ds.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="load3ds.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="loadjpeg.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="loadjpeg.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>

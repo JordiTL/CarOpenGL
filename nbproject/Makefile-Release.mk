@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc.exe
-CCC=g++.exe
-CXX=g++.exe
+CC=gcc
+CCC=g++
+CXX=g++
 FC=gfortran
-AS=as.exe
+AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
+CND_PLATFORM=MinGW-CODEBLOCKS-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -35,6 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Objects.o \
+	${OBJECTDIR}/load3ds.o \
+	${OBJECTDIR}/loadjpeg.o \
 	${OBJECTDIR}/main.o
 
 
@@ -52,7 +55,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L../../../../../Program\ Files\ \(x86\)/CodeBlocks/MinGW/lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -60,12 +63,27 @@ LDLIBSOPTIONS=
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/caropengl.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/caropengl ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/caropengl ${OBJECTFILES} ${LDLIBSOPTIONS} -lglui32 -lopengl32 -lglut32 -lglu32 -mWindows
+
+${OBJECTDIR}/Objects.o: Objects.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I/C/Program\ Files\ \(x86\)/CodeBlocks/MinGW/include -I/C/Program\ Files\ \(x86\)/CodeBlocks/MinGW/include/GL -MMD -MP -MF $@.d -o ${OBJECTDIR}/Objects.o Objects.cpp
+
+${OBJECTDIR}/load3ds.o: load3ds.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/load3ds.o load3ds.c
+
+${OBJECTDIR}/loadjpeg.o: loadjpeg.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/loadjpeg.o loadjpeg.c
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -I/C/Program\ Files\ \(x86\)/CodeBlocks/MinGW/include -I/C/Program\ Files\ \(x86\)/CodeBlocks/MinGW/include/GL -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

@@ -2,12 +2,12 @@
 
     CarGL (main.cpp)
 
-    Práctica de Gráficos por Computador (Grado Ingeniería Multimedia)
+    Prï¿½ctica de Grï¿½ficos por Computador (Grado Ingenierï¿½a Multimedia)
   -----------------------------------------------------------------------
 
-    Noviembre 2012 (C) Juan Antonio Puchol García (puchol@dccia.ua.es)
+    Noviembre 2012 (C) Juan Antonio Puchol Garcï¿½a (puchol@dccia.ua.es)
 
-    NOTA:   Para que esta aplicación compile se necesita tener copiados los
+    NOTA:   Para que esta aplicaciï¿½n compile se necesita tener copiados los
             siguientes ficheros:
 
             Si es un Windows de 32 bits:
@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
 
     int main_window = glutCreateWindow( "CarGL V1.1 (2012)" );
 
-    // Inicializa los valores de OpenGL para esta Aplicación
+    // Inicializa los valores de OpenGL para esta Aplicaciï¿½n
     escena.InitGL();
     gui.Init(main_window);
 
@@ -131,15 +131,46 @@ int main(int argc, char* argv[])
     TPrimitiva *road = new TPrimitiva(CARRETERA_ID, CARRETERA_ID);
     TPrimitiva *car1 = new TPrimitiva(COCHE_ID*1, COCHE_ID);
     TPrimitiva *car2 = new TPrimitiva(COCHE_ID*2, COCHE_ID);
-
+    TPrimitiva *semaforo1 = new TPrimitiva(SEMAFORO_ID, SEMAFORO_ID);
+    TPrimitiva *rotonda1 = new TPrimitiva(ROTONDA_ID, ROTONDA_ID);
+    TPrimitiva *acera1 = new TPrimitiva(ACERAS_ID, ACERAS_ID);
+    TPrimitiva *reloj1 = new TPrimitiva(RELOJ_ID, RELOJ_ID);
+    
+    car1->colores[0][0] = 0.3;
+    car1->colores[0][1] = 0.8;
+    car1->colores[0][2] = 0.4;
+    car1->colores[0][3] = 1.0;
+    car1->tx = 2;
+    car1->tz = -30;
+    
     car2->colores[0][0] = 0.3;
     car2->colores[0][1] = 0.8;
     car2->colores[0][2] = 0.4;
     car2->colores[0][3] = 1.0;
-    car2->tx = 2;
-    car2->tz = -3;
+    car2->tx = -2;
+    car2->tz = -30;
+    
+    road->colores[0][0] = 0.0;
+    road->colores[0][1] = 0.0;
+    road->colores[0][2] = 0.0;
+    road->colores[0][3] = 1.0;
 
+    rotonda1->colores[0][0] = 0.0;
+    rotonda1->colores[0][1] = 1.0;
+    rotonda1->colores[0][2] = 0.0;
+    rotonda1->colores[0][3] = 1.0;
+    
+    reloj1->colores[0][0] = 0.5;
+    reloj1->colores[0][1] = 0.5;
+    reloj1->colores[0][2] = 0.5;
+    reloj1->colores[0][3] = 1.0;
+    reloj1->ty = 2;
+    
     escena.AddObject(road);
+    //escena.AddObject(semaforo1);
+    escena.AddObject(rotonda1);
+    escena.AddObject(acera1);
+    escena.AddObject(reloj1);
     escena.AddCar(car1);
     escena.AddCar(car2);
 

@@ -3,12 +3,12 @@
 
     CarGL (Objects.h)
 
-    Práctica de Gráficos por Computador (Grado Ingeniería Multimedia)
+    Prï¿½ctica de Grï¿½ficos por Computador (Grado Ingenierï¿½a Multimedia)
   -----------------------------------------------------------------------
 
-    Noviembre 2012 (C) Juan Antonio Puchol García (puchol@dccia.ua.es)
+    Noviembre 2012 (C) Juan Antonio Puchol Garcï¿½a (puchol@dccia.ua.es)
 
-****************************************************************************/
+ ****************************************************************************/
 
 //---------------------------------------------------------------------------
 #ifndef ObjectsH
@@ -19,6 +19,11 @@
 
 // Identificadores internos de los objetos
 #define CARRETERA_ID    10
+#define SEMAFORO_ID     20
+#define ROTONDA_ID      30
+#define ACERAS_ID       31
+#define RELOJ_ID        40
+
 
 #define COCHE_ID	    100 // Un coche cada 100
 
@@ -40,119 +45,122 @@
 
 //************************************************************** Clase TPrimtiva
 
-class TPrimitiva
-{
+class TPrimitiva {
 public: // Atributos
-		int ID;				    // DisplayLists del objeto
-		int tipo;               // Tipo de Objeto
-		float tx,ty,tz; 	    // Posición del objeto
-		float sx,sy,sz; 	    // Escalado del objeto
-		float rx,ry,rz;     	// Rotación del objeto
-		float rr;               // Rotación de las ruedas
-		float colores[2][4];    // Color RGB y canal Alfa
+    int ID; // DisplayLists del objeto
+    int tipo; // Tipo de Objeto
+    float tx, ty, tz; // Posiciï¿½n del objeto
+    float sx, sy, sz; // Escalado del objeto
+    float rx, ry, rz; // Rotaciï¿½n del objeto
+    float rr; // Rotaciï¿½n de las ruedas
+    float colores[2][4]; // Color RGB y canal Alfa
 
-public: // Métodos
- 		TPrimitiva(int DL, int tipo);
-        void __fastcall Render(int seleccion, bool reflejo=false);
+public: // Mï¿½todos
+    TPrimitiva(int DL, int tipo);
+    void __fastcall Render(int seleccion, bool reflejo = false);
 };
 
 //************************************************************** Clase TEscena
 
-class TEscena
-{
+class TEscena {
 public: // Atributos
-		int   	seleccion;   	// Objeto seleccionado, 0=ninguno
-        int		num_objects;    // Número de objetos (excepto coches)
-        int     num_cars;       // Número de coches
+    int seleccion; // Objeto seleccionado, 0=ninguno
+    int num_objects; // Nï¿½mero de objetos (excepto coches)
+    int num_cars; // Nï¿½mero de coches
 
-        TPrimitiva  *cars[10];
-        TPrimitiva  *objects[100];
+    TPrimitiva *cars[10];
+    TPrimitiva *objects[100];
+    
+    int roadID;
 
-        int show_car;
-        int show_wheels;
-        int show_road;
+    int show_car;
+    int show_wheels;
+    int show_road;
+    int show_semaforo;
+    int show_rotonda;
+    int show_aceras;
+    int show_reloj;
 
-        GLfloat view_position[3];
-        GLfloat view_rotate[16];
+    GLfloat view_position[3];
+    GLfloat view_rotate[16];
 
-        // Vectores de luces y materiales
-        GLfloat light0_ambient[4];
-        GLfloat light0_diffuse[4];
-        GLfloat light0_specular[4];
-        GLfloat light0_position[4];
+    // Vectores de luces y materiales
+    GLfloat light0_ambient[4];
+    GLfloat light0_diffuse[4];
+    GLfloat light0_specular[4];
+    GLfloat light0_position[4];
 
-        GLfloat light1_ambient[4];
-        GLfloat light1_diffuse[4];
-        GLfloat light1_specular[4];
-        GLfloat light1_position[4];
+    GLfloat light1_ambient[4];
+    GLfloat light1_diffuse[4];
+    GLfloat light1_specular[4];
+    GLfloat light1_position[4];
 
-        GLfloat mat_ambient[4];
-        GLfloat mat_diffuse[4];
-        GLfloat mat_specular[4];
-        GLfloat high_shininess[1];
+    GLfloat mat_ambient[4];
+    GLfloat mat_diffuse[4];
+    GLfloat mat_specular[4];
+    GLfloat high_shininess[1];
 
-        float   xy_aspect;
-        int     last_x, last_y;
+    float xy_aspect;
+    int last_x, last_y;
 
-        // live variables usadas por GLUI en TGui
-        int     wireframe;
-        int     z_buffer;
-        int     culling;
-        float   scale;
+    // live variables usadas por GLUI en TGui
+    int wireframe;
+    int z_buffer;
+    int culling;
+    float scale;
 
-public: // Métodos
-		TEscena();
+public: // Mï¿½todos
+    TEscena();
 
-        void __fastcall InitGL();
-		void __fastcall Render();
-		void __fastcall RenderCars(bool reflejo=false);
-		void __fastcall RenderObjects(bool reflejo=false);
+    void __fastcall InitGL();
+    void __fastcall Render();
+    void __fastcall RenderCars(bool reflejo = false);
+    void __fastcall RenderObjects(bool reflejo = false);
 
-		void __fastcall AddCar(TPrimitiva *car);
-		void __fastcall AddObject(TPrimitiva *object);
+    void __fastcall AddCar(TPrimitiva *car);
+    void __fastcall AddObject(TPrimitiva *object);
 
-		TPrimitiva __fastcall *GetCar(int id);
+    TPrimitiva __fastcall *GetCar(int id);
 
-		void __fastcall Pick3D(int mouse_x, int mouse_y);
+    void __fastcall Pick3D(int mouse_x, int mouse_y);
 
 
 };
 
 //************************************************************** Clase TGui
 
-class TGui
-{
+class TGui {
 public:
-        int             window_id;
+    int window_id;
 
-        // live variables usadas por GLUI
-        int             enable_panel2;
-        int             light0_enabled;
-        int             light1_enabled;
-        float           light0_intensity;
-        float           light1_intensity;
+    // live variables usadas por GLUI
+    int enable_panel2;
+    int light0_enabled;
+    int light1_enabled;
+    float light0_intensity;
+    float light1_intensity;
 
-        GLUI            *glui, *glui2;
-        GLUI_Spinner    *light0_spinner;
-        GLUI_Spinner    *light1_spinner;
-        GLUI_RadioGroup *radio;
-        GLUI_Panel      *obj_panel;
-        GLUI_Rotation   *view_rot;
-        GLUI_StaticText *sel_tex;
+    GLUI *glui, *glui2;
+    GLUI_Spinner *light0_spinner;
+    GLUI_Spinner *light1_spinner;
+    GLUI_RadioGroup *radio;
+    GLUI_Panel *obj_panel;
+    GLUI_Rotation *view_rot;
+    GLUI_StaticText *sel_tex;
 
 public:
-        TGui();
-        void __fastcall Init(int main_window);
-        void __fastcall ControlCallback(int control);
-        void __fastcall Idle( void );
-        void __fastcall Reshape( int x, int y  );
-        void __fastcall Motion( int x, int y  );
-        void __fastcall Mouse(int button, int button_state, int x, int y );
+    TGui();
+    void __fastcall Init(int main_window);
+    void __fastcall ControlCallback(int control);
+    void __fastcall Idle(void);
+    void __fastcall Reshape(int x, int y);
+    void __fastcall Motion(int x, int y);
+    void __fastcall Mouse(int button, int button_state, int x, int y);
 };
 
 //************************************************************** Variables de clase
 
-extern TEscena  escena;
-extern TGui     gui;
+extern TEscena escena;
+extern TGui gui;
 
 #endif
