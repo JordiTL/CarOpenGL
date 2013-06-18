@@ -15,6 +15,7 @@
 #include <GL/glui.h>
 
 #include "load3ds.c"
+#include "loadjpeg.c"
 
 // Variable para inicializar los vectores correpondientes con los valores iniciales
 GLfloat light0_ambient_c[4] = {0.2f, 0.2f, 0.2f, 1.0f};
@@ -146,7 +147,7 @@ TPrimitiva::TPrimitiva(int DL, int t) {
         { // Creaci�n del coche
 
             tx = -2;
-            ty = 0;
+            ty = 2;
             tz = -30;
             rr = 0;
 
@@ -155,9 +156,9 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             //************************ Cargar modelos ***********************************
             int num_vertices = 0;
 
-            float* modelo = Load3DS("../../Modelos/beetle.3ds", &num_vertices);
+            float* modelo = Load3DS("../../Modelos/furgoneta_chapa.3ds", &num_vertices);
 
-            glNewList(ID + COCHE, GL_COMPILE);
+            glNewList(ID + CHAPA, GL_COMPILE);
             glBegin(GL_TRIANGLES);
             for (int i = 0; i < num_vertices; i++) {
                 glNormal3fv((float*) & modelo[i << 3] + 3);
@@ -174,6 +175,54 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             modelo = Load3DS("../../Modelos/rueda.3ds", &num_vertices);
 
             glNewList(ID + RUEDA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/furgoneta_plasticos.3ds", &num_vertices);
+
+            glNewList(ID + PLASTICOS, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/furgoneta_cristales.3ds", &num_vertices);
+
+            glNewList(ID + CRISTAL, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/furgoneta_luces.3ds", &num_vertices);
+
+            glNewList(ID + LUCES, GL_COMPILE);
             glBegin(GL_TRIANGLES);
             for (int i = 0; i < num_vertices; i++) {
                 glNormal3fv((float*) & modelo[i << 3] + 3);
@@ -257,7 +306,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
             if (escena.show_road) {
                 glPushMatrix();
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-                glColor4fv(colores[0]);
+                
+                glColor4f(0.1,0.1,0.1, 0.98);
                 glLoadName(0); // No seleccionable
                 glCallList(ID);
                 glPopMatrix();
@@ -270,6 +320,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glPushMatrix();
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
                 glColor4fv(colores[0]);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.streetTexture);
                 glLoadName(0); // No seleccionable
                 glCallList(ID);
                 glPopMatrix();
@@ -281,6 +333,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
             if (escena.show_rotonda) {
                 glPushMatrix();
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.grassTexture);
                 glColor4fv(colores[0]);
                 glLoadName(0); // No seleccionable
                 glCallList(ID);
@@ -290,11 +344,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
         }
         case RELOJ_ID:
         {
-            
+
             if (escena.show_reloj) {
                 glPushMatrix();
                 glTranslated(tx, ty, tz);
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.stoneTexture);
                 glColor4fv(colores[0]);
                 glLoadName(0); // No seleccionable
                 glCallList(ID);
@@ -305,21 +361,53 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
         case COCHE_ID:
         {
             glPushMatrix();
-
             // Traslaci�n del coche y ruedas
             glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
             if (escena.show_car) {
+                glPushMatrix();
+                glScaled(0.25, 0.25, 0.25);
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
                 glColor4fv(colores[0]);
                 glLoadName(ID);
-                glCallList(ID + COCHE);
+                glCallList(ID + CHAPA);
+                glPopMatrix();
+
+                glPushMatrix();
+                glScaled(0.25, 0.25, 0.25);
+                glTranslated(-7.24, -5, -22.5);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[1]);
+                glLoadName(ID);
+                glCallList(ID + PLASTICOS);
+                glPopMatrix();
+
+                glPushMatrix();
+                glScaled(0.25, 0.25, 0.25);
+                glTranslated(-0.15, 3.8, -6);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[2]);
+                glLoadName(ID);
+                glCallList(ID + CRISTAL);
+                glPopMatrix();
+
+                glPushMatrix();
+                glScaled(0.25, 0.25, 0.25);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[3]);
+                glLoadName(ID);
+                glCallList(ID + LUCES);
+                glPopMatrix();
             }
 
             if (escena.show_wheels) {
+
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-                glColor4fv(colores [1]);
+                glColor4fv(colores [4]);
                 glPushMatrix();
-                glTranslated(0.9, 0.45, 1.55);
+
+                //DELANTERAS
+                glTranslated(1.3, -1.4, 3.5);
                 glRotated(rr, 1, 0, 0);
                 glRotated(180, 0, 0, 1);
                 glLoadName(ID);
@@ -327,14 +415,15 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glPopMatrix();
 
                 glPushMatrix();
-                glTranslated(-0.9, 0.45, 1.55);
+                glTranslated(-1.3, -1.4, 3.5);
                 glRotated(rr, 1, 0, 0);
                 glLoadName(ID);
                 glCallList(ID + RUEDA);
                 glPopMatrix();
 
+                //TRASERAS
                 glPushMatrix();
-                glTranslated(0.9, 0.45, -1.65);
+                glTranslated(1.3, -1.4, -1.55);
                 glRotated(rr, 1, 0, 0);
                 glRotated(180, 0, 0, 1);
                 glLoadName(ID);
@@ -342,7 +431,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glPopMatrix();
 
                 glPushMatrix();
-                glTranslated(-0.9, 0.45, -1.65);
+                glTranslated(-1.3, -1.4, -1.55);
                 glRotated(rr, 1, 0, 0);
                 glLoadName(ID);
                 glCallList(ID + RUEDA);
@@ -362,16 +451,19 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
             break;
         }
     }
+   glDisable(GL_TEXTURE_2D);
 
 }
 
 //************************************************************** Clase TEscena
+
 
 TEscena::TEscena() {
 
     seleccion = 0;
     num_objects = 0;
     num_cars = 0;
+    num_roads = 0;
 
     show_car = 1;
     show_wheels = 1;
@@ -412,6 +504,34 @@ TEscena::TEscena() {
     memcpy(high_shininess, high_shininess_c, 1 * sizeof (float));
 }
 
+GLuint TEscena::LoadTextureJPEG( char * filename, int wrap, int width = 256, int height = 256 )
+{
+    GLuint texture;
+
+    unsigned char * RawTexture = LoadJPEG(filename, &width, &height);
+    // allocate a texture name
+    glGenTextures( 1, &texture );
+
+    // select our current texture
+    glBindTexture( GL_TEXTURE_2D, texture );
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, RawTexture);
+    // select modulate to mix texture with color for shading
+    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+
+    // when texture area is small, bilinear filter the closest mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
+    // when texture area is large, bilinear filter the first mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+
+    // build our texture mipmaps
+    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, RawTexture );
+
+    // free buffer
+    free( RawTexture );
+
+    return texture;
+}
+
 void __fastcall TEscena::InitGL() {
     int tx, ty, tw, th;
     GLUI_Master.get_viewport_area(&tx, &ty, &tw, &th);
@@ -449,7 +569,53 @@ void __fastcall TEscena::InitGL() {
     // Habilita el z_buffer
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    
+    //stoneTexture = LoadTextureJPEG("../../Texturas/stone_texture.jpg",1);
+    //grassTexture = LoadTextureJPEG("../../Texturas/grass_texture.jpg",1);
+    
+    int width;
+    int height;
+    width=height=894;
+    unsigned char * tex = LoadJPEG("../../Texturas/grass_texture.jpg", &width, &height);
+    glGenTextures(1 ,&grassTexture);
+    glBindTexture( GL_TEXTURE_2D, grassTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    width=height=894;
+    tex = LoadJPEG("../../Texturas/stone_texture.jpg", &width, &height);
+    glGenTextures(1 ,&stoneTexture);
+    glBindTexture( GL_TEXTURE_2D, stoneTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    width=height=600;
+    tex = LoadJPEG("../../Texturas/street_texture.jpg", &width, &height);
+    glGenTextures(1 ,&streetTexture);
+    glBindTexture( GL_TEXTURE_2D, streetTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    /*width=height=894;
+    tex = LoadJPEG("../../Texturas/grass_texture.jpg", &width, &height);
+    glGenTextures(1 ,&grassTexture);
+    glBindTexture( GL_TEXTURE_2D, grassTexture);
+
+    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, tex );
+    // when texture area is small, bilinear filter the closest mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
+    // when texture area is large, bilinear filter the first mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);*/
 }
+
+
 
 /************************** TEscena::AddCar(TPrimitiva *car) *****************/
 
@@ -463,6 +629,13 @@ void __fastcall TEscena::AddCar(TPrimitiva *car) {
 void __fastcall TEscena::AddObject(TPrimitiva *object) {
     objects[num_objects] = object;
     num_objects++;
+}
+
+/******************** TEscena::AddRoad(TPrimitiva *object) *****************/
+
+void __fastcall TEscena::AddRoad(TPrimitiva *object) {
+    roads[num_roads] = object;
+    num_roads++;
 }
 
 /******************** TPrimitiva *TEscena::GetCar(int id) ********************/
@@ -497,10 +670,19 @@ void __fastcall TEscena::RenderObjects(bool reflejo) {
     }
 }
 
+/******************** TEscena::RenderRoads() **********************************/
+
+void __fastcall TEscena::RenderRoads(bool reflejo) {
+
+    for (int i = 0; i < num_roads; i++) {
+        roads[i]->Render(seleccion, reflejo);
+    }
+}
+
 /***************************************** TEscena::Render() *****************/
 
 void __fastcall TEscena::Render() {
-    glClearColor(0.0, 0.7, 0.9, 1.0);
+    /*glClearColor(0.0, 0.7, 0.9, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
@@ -515,8 +697,81 @@ void __fastcall TEscena::Render() {
 
     RenderObjects(seleccion);
     RenderCars(seleccion);
+    RenderRoads(seleccion);
 
-    glutSwapBuffers();
+    glutSwapBuffers();*/
+
+    //REFLEJO
+    // Clear Screen, Depth Buffer & Stencil Buffer
+    glClearColor(0.0, 0.7, 0.9, 1.0);//Color Azul
+        glLightfv(GL_LIGHT0, GL_AMBIENT, escena.light0_ambient);
+        glLightfv(GL_LIGHT1, GL_AMBIENT, escena.light1_ambient );
+        
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    // Clip Plane Equations
+    double eqr[] = {0.0f, -1.0f, 0.0f, 0.0f}; // Plane Equation To Use For The Reflected Objects
+
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Transformación del escenario
+    glTranslatef(view_position[0], view_position[1], view_position[2]); // Traslación
+    glMultMatrixf(view_rotate); // Rotación
+    glScalef(scale, scale, scale);
+
+    glColorMask(0, 0, 0, 0); // Set Color Mask
+    glEnable(GL_STENCIL_TEST); // Enable Stencil Buffer For "marking" The Floor
+    glStencilFunc(GL_ALWAYS, 1, 1); // Always Passes, 1 Bit Plane, 1 As Mask
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); // We Set The Stencil Buffer To 1 Where We Draw Any Polygon
+    // Keep If Test Fails, Keep If Test Passes But Buffer Test Fails
+    // Replace If Test Passes
+    glDisable(GL_DEPTH_TEST);
+    // Disable Depth Testin
+
+
+    glEnable(GL_CULL_FACE); //ACTIVO CULLING
+    RenderRoads(seleccion); //DIBUJO										// Draw The Floor (Draws To The Stencil Buffer)
+    glDisable(GL_CULL_FACE); //DESACTIVO CULL
+
+    glEnable(GL_DEPTH_TEST);
+
+    glColorMask(1, 1, 1, 1); // Set Color Mask to TRUE, TRUE, TRUE, TRUE
+    glStencilFunc(GL_EQUAL, 1, 1); // We Draw Only Where The Stencil Is 1
+    // (I.E. Where The Floor Was Drawn)
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // Don't Change The Stencil Buffer
+
+    glPushMatrix(); // Push The Matrix Onto The Stack
+    glScalef(1.0f, -1.0f, 1.0f); // Mirror Y Axis
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+
+    RenderObjects(seleccion);
+    RenderCars(seleccion);
+
+    
+    glPopMatrix(); // Pop The Matrix Off The Stack
+    glDisable(GL_CLIP_PLANE0); // Disable Clip Plane For Drawing The Floor
+    glDisable(GL_STENCIL_TEST); // We Don't Need The Stencil Buffer Any More (Disable)
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+
+    glEnable(GL_BLEND); // Enable Blending (Otherwise The Reflected Object Wont Show)
+    glDisable(GL_LIGHTING); // Since We Use Blending, We Disable Lighting
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Blending Based On Source Alpha And 1 Minus Dest Alpha
+    RenderRoads(seleccion); //DIBUJO
+    glEnable(GL_LIGHTING); // Enable Lighting
+    glDisable(GL_BLEND);
+    
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable( GL_BLEND );
+
+        RenderObjects(seleccion);
+        RenderCars(seleccion);										// Draw The Ball
+        glutSwapBuffers();
+    glDisable(GL_BLEND);
+     
 }
 
 // Selecciona un objeto a trav�s del rat�n

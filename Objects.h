@@ -30,6 +30,10 @@
 #define COCHE           0
 #define RUEDA	        10
 #define MARCADOR        20
+#define CHAPA           30     
+#define CRISTAL         40
+#define PLASTICOS       50
+#define LUCES           60
 // etc...
 
 // IDs para los callbacks de TGui
@@ -53,7 +57,7 @@ public: // Atributos
     float sx, sy, sz; // Escalado del objeto
     float rx, ry, rz; // Rotaci�n del objeto
     float rr; // Rotaci�n de las ruedas
-    float colores[2][4]; // Color RGB y canal Alfa
+    float colores[5][4]; // Color RGB y canal Alfa
 
 public: // M�todos
     TPrimitiva(int DL, int tipo);
@@ -67,9 +71,11 @@ public: // Atributos
     int seleccion; // Objeto seleccionado, 0=ninguno
     int num_objects; // N�mero de objetos (excepto coches)
     int num_cars; // N�mero de coches
+    int num_roads; // N�mero de coches
 
     TPrimitiva *cars[10];
     TPrimitiva *objects[100];
+    TPrimitiva *roads[10];
     
     int roadID;
 
@@ -99,7 +105,11 @@ public: // Atributos
     GLfloat mat_diffuse[4];
     GLfloat mat_specular[4];
     GLfloat high_shininess[1];
-
+    
+    GLuint stoneTexture;
+    GLuint grassTexture;
+    GLuint streetTexture;
+    
     float xy_aspect;
     int last_x, last_y;
 
@@ -116,10 +126,12 @@ public: // M�todos
     void __fastcall Render();
     void __fastcall RenderCars(bool reflejo = false);
     void __fastcall RenderObjects(bool reflejo = false);
+    void __fastcall RenderRoads(bool reflejo = false);
 
     void __fastcall AddCar(TPrimitiva *car);
     void __fastcall AddObject(TPrimitiva *object);
-
+    void __fastcall AddRoad(TPrimitiva *object);
+    GLuint LoadTextureJPEG( char * filename, int wrap, int width, int height);
     TPrimitiva __fastcall *GetCar(int id);
 
     void __fastcall Pick3D(int mouse_x, int mouse_y);

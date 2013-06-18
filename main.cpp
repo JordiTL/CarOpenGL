@@ -136,17 +136,60 @@ int main(int argc, char* argv[])
     TPrimitiva *acera1 = new TPrimitiva(ACERAS_ID, ACERAS_ID);
     TPrimitiva *reloj1 = new TPrimitiva(RELOJ_ID, RELOJ_ID);
     
-    car1->colores[0][0] = 0.3;
-    car1->colores[0][1] = 0.8;
-    car1->colores[0][2] = 0.4;
+    car1->colores[0][0] = 1.0;
+    car1->colores[0][1] = 1.0;
+    car1->colores[0][2] = 1.0;
     car1->colores[0][3] = 1.0;
+    
+    car1->colores[1][0] = 0.0;
+    car1->colores[1][1] = 0.0;
+    car1->colores[1][2] = 0.0;
+    car1->colores[1][3] = 1.0;
+    
+    car1->colores[2][0] = 0.0;
+    car1->colores[2][1] = 0.0;
+    car1->colores[2][2] = 1.0;
+    car1->colores[2][3] = 0.5;
+    
+    car1->colores[3][0] = 1.0;
+    car1->colores[3][1] = 1.0;
+    car1->colores[3][2] = 0.0;
+    car1->colores[3][3] = 1.0;
+    
+    car1->colores[4][0] = 0.5;
+    car1->colores[4][1] = 0.5;
+    car1->colores[4][2] = 0.5;
+    car1->colores[4][3] = 1.0;
+    
+    
     car1->tx = 2;
     car1->tz = -30;
     
-    car2->colores[0][0] = 0.3;
-    car2->colores[0][1] = 0.8;
-    car2->colores[0][2] = 0.4;
+    car2->colores[0][0] = 1.0;
+    car2->colores[0][1] = 1.0;
+    car2->colores[0][2] = 0.2;
     car2->colores[0][3] = 1.0;
+    
+    car2->colores[1][0] = 0.0;
+    car2->colores[1][1] = 0.0;
+    car2->colores[1][2] = 0.0;
+    car2->colores[1][3] = 1.0;
+    
+    car2->colores[2][0] = 0.0;
+    car2->colores[2][1] = 0.0;
+    car2->colores[2][2] = 1.0;
+    car2->colores[2][3] = 0.5;
+    
+    car2->colores[3][0] = 1.0;
+    car2->colores[3][1] = 1.0;
+    car2->colores[3][2] = 0.0;
+    car2->colores[3][3] = 1.0;
+
+    car2->colores[4][0] = 0.5;
+    car2->colores[4][1] = 0.5;
+    car2->colores[4][2] = 0.5;
+    car2->colores[4][3] = 1.0;
+    
     car2->tx = -2;
     car2->tz = -30;
     
@@ -166,7 +209,12 @@ int main(int argc, char* argv[])
     reloj1->colores[0][3] = 1.0;
     reloj1->ty = 2;
     
-    escena.AddObject(road);
+    acera1->colores[0][0] = 0.5;
+    acera1->colores[0][1] = 0.5;
+    acera1->colores[0][2] = 0.5;
+    acera1->colores[0][3] = 1.0;
+    
+    escena.AddRoad(road);
     //escena.AddObject(semaforo1);
     escena.AddObject(rotonda1);
     escena.AddObject(acera1);
