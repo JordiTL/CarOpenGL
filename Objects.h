@@ -23,10 +23,11 @@
 #define ROTONDA_ID      30
 #define ACERAS_ID       31
 #define RELOJ_ID        40
-
+#define COMISARIA_ID        50
 
 #define COCHE_ID	    100 // Un coche cada 100
 
+// COCHE
 #define COCHE           0
 #define RUEDA	        10
 #define MARCADOR        20
@@ -34,6 +35,14 @@
 #define CRISTAL         40
 #define PLASTICOS       50
 #define LUCES           60
+
+//COMISARIA
+#define COM_BLOQUES         1
+#define COM_CRISTAL         2
+#define COM_PUERTA          3
+#define COM_COLUMNAS         4
+
+
 // etc...
 
 // IDs para los callbacks de TGui
@@ -86,6 +95,7 @@ public: // Atributos
     int show_rotonda;
     int show_aceras;
     int show_reloj;
+    int show_buildings;
 
     GLfloat view_position[3];
     GLfloat view_rotate[16];
@@ -109,6 +119,10 @@ public: // Atributos
     GLuint stoneTexture;
     GLuint grassTexture;
     GLuint streetTexture;
+    
+    GLuint doorTexture;
+    GLuint brickTexture;
+    GLuint marbleTexture;
     
     float xy_aspect;
     int last_x, last_y;

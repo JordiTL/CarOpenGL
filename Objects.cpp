@@ -143,6 +143,83 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             free(modelo);
             break;
         }
+        case COMISARIA_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/comisaria_bloques.3ds", &num_vertices);
+
+            glNewList(ID + COM_BLOQUES, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/comisaria_cristal.3ds", &num_vertices);
+
+            glNewList(ID + COM_CRISTAL, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/comisaria_puerta.3ds", &num_vertices);
+
+            glNewList(ID + COM_PUERTA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/comisaria_columnas.3ds", &num_vertices);
+
+            glNewList(ID + COM_COLUMNAS, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+            break;
+        }
         case COCHE_ID:
         { // Creaci�n del coche
 
@@ -266,6 +343,8 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             free(modelo);
             break;
         }
+        
+        
         case ROTONDA_ID:
         { // Creaci�n del semaforo
 
@@ -340,6 +419,50 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glCallList(ID);
                 glPopMatrix();
             }
+            break;
+        }
+        case COMISARIA_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_buildings) {
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.brickTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + COM_BLOQUES);
+                glPopMatrix();
+
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[1]);
+                glLoadName(ID);
+                glCallList(ID + COM_CRISTAL);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.marbleTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + COM_COLUMNAS);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.doorTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + COM_PUERTA);
+                glPopMatrix();
+            }
+            glPopMatrix();
             break;
         }
         case RELOJ_ID:
@@ -472,6 +595,7 @@ TEscena::TEscena() {
     show_rotonda = 1;
     show_aceras = 1;
     show_reloj = 1;
+    show_buildings=1;
 
     // live variables usadas por GLUI en TGui
     wireframe = 0;
@@ -602,17 +726,34 @@ void __fastcall TEscena::InitGL() {
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
-    /*width=height=894;
-    tex = LoadJPEG("../../Texturas/grass_texture.jpg", &width, &height);
-    glGenTextures(1 ,&grassTexture);
-    glBindTexture( GL_TEXTURE_2D, grassTexture);
-
-    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, tex );
-    // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
-    // when texture area is large, bilinear filter the first mipmap
+    width=height=1111;
+    tex = LoadJPEG("../../Texturas/marble_texture.jpg", &width, &height);
+    glGenTextures(1 ,&marbleTexture);
+    glBindTexture( GL_TEXTURE_2D, marbleTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);*/
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    width=863;
+    height=996;
+    tex = LoadJPEG("../../Texturas/door_texture.jpg", &width, &height);
+    glGenTextures(1 ,&doorTexture);
+    glBindTexture( GL_TEXTURE_2D, doorTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    width=height=1000;
+    tex = LoadJPEG("../../Texturas/building_texture.jpg", &width, &height);
+    glGenTextures(1 ,&brickTexture);
+    glBindTexture( GL_TEXTURE_2D, brickTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
 }
 
 

@@ -135,6 +135,7 @@ int main(int argc, char* argv[])
     TPrimitiva *rotonda1 = new TPrimitiva(ROTONDA_ID, ROTONDA_ID);
     TPrimitiva *acera1 = new TPrimitiva(ACERAS_ID, ACERAS_ID);
     TPrimitiva *reloj1 = new TPrimitiva(RELOJ_ID, RELOJ_ID);
+    TPrimitiva *comisaria1 = new TPrimitiva(COMISARIA_ID, COMISARIA_ID);
     
     car1->colores[0][0] = 1.0;
     car1->colores[0][1] = 1.0;
@@ -198,9 +199,9 @@ int main(int argc, char* argv[])
     road->colores[0][2] = 0.0;
     road->colores[0][3] = 1.0;
 
-    rotonda1->colores[0][0] = 0.0;
+    rotonda1->colores[0][0] = 1.0;
     rotonda1->colores[0][1] = 1.0;
-    rotonda1->colores[0][2] = 0.0;
+    rotonda1->colores[0][2] = 1.0;
     rotonda1->colores[0][3] = 1.0;
     
     reloj1->colores[0][0] = 0.5;
@@ -214,8 +215,19 @@ int main(int argc, char* argv[])
     acera1->colores[0][2] = 0.5;
     acera1->colores[0][3] = 1.0;
     
+    comisaria1->colores[0][0] = 0.5;
+    comisaria1->colores[0][1] = 0.5;
+    comisaria1->colores[0][2] = 0.5;
+    comisaria1->colores[0][3] = 1.0;
+    
+    comisaria1->colores[1][0] = 0.0;
+    comisaria1->colores[1][1] = 0.0;
+    comisaria1->colores[1][2] = 0.5;
+    comisaria1->colores[1][3] = 0.5;
+    comisaria1->ty = 4;
     escena.AddRoad(road);
     //escena.AddObject(semaforo1);
+    escena.AddObject(comisaria1);
     escena.AddObject(rotonda1);
     escena.AddObject(acera1);
     escena.AddObject(reloj1);
