@@ -71,7 +71,24 @@ TPrimitiva::TPrimitiva(int DL, int t) {
 
             float* modelo = Load3DS("../../Modelos/carretera.3ds", &num_vertices);
 
-            glNewList(ID, GL_COMPILE);
+            glNewList(ID + CALZADA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+
+            modelo = Load3DS("../../Modelos/carretera_lineas.3ds", &num_vertices);
+
+            glNewList(ID + LINEAS, GL_COMPILE);
             glBegin(GL_TRIANGLES);
             for (int i = 0; i < num_vertices; i++) {
                 glNormal3fv((float*) & modelo[i << 3] + 3);
@@ -99,6 +116,35 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             int num_vertices = 0;
 
             float* modelo = Load3DS("../../Modelos/aceras.3ds", &num_vertices);
+
+            glNewList(ID, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+            break;
+        }
+        case FAROLA_ID:
+        { // Creaci�n de la carretera
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/farolas.3ds", &num_vertices);
 
             glNewList(ID, GL_COMPILE);
             glBegin(GL_TRIANGLES);
@@ -218,6 +264,316 @@ TPrimitiva::TPrimitiva(int DL, int t) {
 
             // Liberamos la memoria una vez creada la Display List,
             free(modelo);
+            break;
+        }
+        case VIVIENDAS_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/viviendas_bloques.3ds", &num_vertices);
+
+            glNewList(ID + VIV_BLOQUES, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/viviendas_cristal.3ds", &num_vertices);
+
+            glNewList(ID + VIV_CRISTAL, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/viviendas_puertas.3ds", &num_vertices);
+
+            glNewList(ID + VIV_PUERTA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            break;
+        }
+        case VEGETACION_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/vegetacion_troncos.3ds", &num_vertices);
+
+            glNewList(ID + TRONCO, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/vegetacion_hojas.3ds", &num_vertices);
+
+            glNewList(ID + HOJAS, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            break;
+        }
+        case PARQUE_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/parque_suelo.3ds", &num_vertices);
+
+            glNewList(ID + P_SUELO, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/parque_agua.3ds", &num_vertices);
+
+            glNewList(ID + P_AGUA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/parque_puente.3ds", &num_vertices);
+
+            glNewList(ID + P_PUENTE, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            break;
+        }
+        case BANCO_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/bancos_base.3ds", &num_vertices);
+
+            glNewList(ID + BASE, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/bancos_asientos.3ds", &num_vertices);
+
+            glNewList(ID + ASIENTO, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            break;
+        }
+        case DAVID_ID:
+        { // Creaci�n del coche
+
+            tx = -12;
+            ty = 6;
+            tz = -12;
+            rr = 0;
+            sx = sy = sz = 0.6;
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/david_pedestal.3ds", &num_vertices);
+
+            glNewList(ID + PEDESTAL, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/david_figura.3ds", &num_vertices);
+
+            glNewList(ID + FIGURA, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+
+            break;
+        }
+        case STOP_ID:
+        { // Creaci�n del coche
+
+            tx = 0;
+            ty = 0;
+            tz = 0;
+            rr = 0;
+            sx = sy = sz = 0;
+            memcpy(colores, colores_c, 8 * sizeof (float));
+
+            //************************ Cargar modelos ***********************************
+            int num_vertices = 0;
+
+            float* modelo = Load3DS("../../Modelos/stop_base.3ds", &num_vertices);
+
+            glNewList(ID + S_BASE, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+            num_vertices = 0;
+            modelo = Load3DS("../../Modelos/stop_signal.3ds", &num_vertices);
+
+            glNewList(ID + S_SIGNAL, GL_COMPILE);
+            glBegin(GL_TRIANGLES);
+            for (int i = 0; i < num_vertices; i++) {
+                glNormal3fv((float*) & modelo[i << 3] + 3);
+                glTexCoord2fv((float*) & modelo[i << 3] + 6);
+                glVertex3fv((float*) & modelo[i << 3]);
+            }
+            glEnd();
+            glEndList();
+
+            // Liberamos la memoria una vez creada la Display List,
+            free(modelo);
+
+
             break;
         }
         case COCHE_ID:
@@ -343,8 +699,8 @@ TPrimitiva::TPrimitiva(int DL, int t) {
             free(modelo);
             break;
         }
-        
-        
+
+
         case ROTONDA_ID:
         { // Creaci�n del semaforo
 
@@ -385,11 +741,21 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
             if (escena.show_road) {
                 glPushMatrix();
                 glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-                
-                glColor4f(0.1,0.1,0.1, 0.98);
+
+                glColor4f(0.1, 0.1, 0.1, 0.8);
                 glLoadName(0); // No seleccionable
-                glCallList(ID);
+                glCallList(ID + CALZADA);
                 glPopMatrix();
+                if (escena.show_roadLines) {
+                    glPushMatrix();
+                    glTranslated(0, 0.4, 0);
+                    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+                    glColor4f(1.0, 1.0, 1.0, 1.0);
+                    glLoadName(0); // No seleccionable
+                    glCallList(ID + LINEAS);
+                    glPopMatrix();
+                }
             }
             break;
         }
@@ -415,6 +781,40 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glEnable(GL_TEXTURE_2D);
                 glBindTexture(GL_TEXTURE_2D, escena.grassTexture);
                 glColor4fv(colores[0]);
+                glLoadName(0); // No seleccionable
+                glCallList(ID);
+                glPopMatrix();
+            }
+            break;
+        }
+        case STOP_ID:
+        {
+            if (escena.show_stop) {
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4f(0.7, 0.7, 0.7, 1.0);
+                glLoadName(0); // No seleccionable
+                glCallList(ID + S_BASE);
+                glPopMatrix();
+
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.stopTexture);
+                glColor4f(1.0, 1.0, 1.0, 1.0);
+                glLoadName(0); // No seleccionable
+                glCallList(ID + S_SIGNAL);
+                glPopMatrix();
+            }
+            break;
+        }
+        case FAROLA_ID:
+        {
+            if (escena.show_lampost) {
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4f(0.1, 0.1, 0.1, 1.0);
+
                 glLoadName(0); // No seleccionable
                 glCallList(ID);
                 glPopMatrix();
@@ -461,6 +861,167 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
                 glLoadName(ID);
                 glCallList(ID + COM_PUERTA);
                 glPopMatrix();
+            }
+            glPopMatrix();
+            break;
+        }
+        case VIVIENDAS_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_buildings) {
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.brick2Texture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + VIV_BLOQUES);
+                glPopMatrix();
+
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[1]);
+                glLoadName(ID);
+                glCallList(ID + VIV_CRISTAL);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.door2Texture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + VIV_PUERTA);
+                glPopMatrix();
+            }
+            glPopMatrix();
+            break;
+        }
+        case BANCO_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_benchs) {
+                glPushMatrix();
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + BASE);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.barkTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + ASIENTO);
+                glPopMatrix();
+            }
+            glPopMatrix();
+            break;
+        }
+        case VEGETACION_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_vegetation) {
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.barkTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + TRONCO);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.leavesTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + HOJAS);
+                glPopMatrix();
+            }
+            glPopMatrix();
+            break;
+        }
+        case PARQUE_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_vegetation) {
+
+                glPushMatrix();
+                glTranslated(0, 0.2, 0);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.grassTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + P_SUELO);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.waterTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + P_AGUA);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.bridgeTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + P_PUENTE);
+                glPopMatrix();
+            }
+            glPopMatrix();
+            break;
+        }
+        case DAVID_ID:
+        {
+            glPushMatrix();
+            // Traslaci�n del coche y ruedas
+            glTranslated(tx, ty, tz);
+            glScaled(sx, sy, sz);
+            if (escena.show_david) {
+
+                glPushMatrix();
+
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.marbleTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[0]);
+                glLoadName(ID);
+                glCallList(ID + FIGURA);
+                glPopMatrix();
+
+                glPushMatrix();
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, escena.bridgeTexture);
+                glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+                glColor4fv(colores[1]);
+                glLoadName(ID);
+                glCallList(ID + PEDESTAL);
+                glPopMatrix();
+
+
             }
             glPopMatrix();
             break;
@@ -574,12 +1135,11 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo) {
             break;
         }
     }
-   glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 
 }
 
 //************************************************************** Clase TEscena
-
 
 TEscena::TEscena() {
 
@@ -595,17 +1155,33 @@ TEscena::TEscena() {
     show_rotonda = 1;
     show_aceras = 1;
     show_reloj = 1;
-    show_buildings=1;
-
+    show_buildings = 1;
+    show_vegetation = 1;
+    show_benchs = 1;
+    show_david = 1;
+    show_roadLines = 1;
+    show_lampost = 1;
+    show_stop = 1;
     // live variables usadas por GLUI en TGui
     wireframe = 0;
     z_buffer = 1;
-    culling = 0;
-
+    culling = 1;
+    projection = PERSPECTIVE_PROJ;
+    ambientLights = 1;
+    clockWiseFaces = 0;
+    shadowing = 1;
     scale = 1.0;
     xy_aspect = 1;
     last_x = 0;
     last_y = 0;
+
+    move_valid = 0;
+    control_pressed = 0;
+    space_pressed = 0;
+    disable_light_ambient[0] = 0.0f;
+    disable_light_ambient[1] = 0.0f;
+    disable_light_ambient[2] = 0.0f;
+    disable_light_ambient[3] = 1.0f;
 
     memcpy(view_position, view_position_c, 3 * sizeof (float));
     memcpy(view_rotate, view_rotate_c, 16 * sizeof (float));
@@ -628,34 +1204,6 @@ TEscena::TEscena() {
     memcpy(high_shininess, high_shininess_c, 1 * sizeof (float));
 }
 
-GLuint TEscena::LoadTextureJPEG( char * filename, int wrap, int width = 256, int height = 256 )
-{
-    GLuint texture;
-
-    unsigned char * RawTexture = LoadJPEG(filename, &width, &height);
-    // allocate a texture name
-    glGenTextures( 1, &texture );
-
-    // select our current texture
-    glBindTexture( GL_TEXTURE_2D, texture );
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, RawTexture);
-    // select modulate to mix texture with color for shading
-    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-
-    // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
-    // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-
-    // build our texture mipmaps
-    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, RawTexture );
-
-    // free buffer
-    free( RawTexture );
-
-    return texture;
-}
-
 void __fastcall TEscena::InitGL() {
     int tx, ty, tw, th;
     GLUI_Master.get_viewport_area(&tx, &ty, &tw, &th);
@@ -665,6 +1213,7 @@ void __fastcall TEscena::InitGL() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, escena.xy_aspect, 1.0, 1000.0);
+
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -693,70 +1242,135 @@ void __fastcall TEscena::InitGL() {
     // Habilita el z_buffer
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    
+
     //stoneTexture = LoadTextureJPEG("../../Texturas/stone_texture.jpg",1);
     //grassTexture = LoadTextureJPEG("../../Texturas/grass_texture.jpg",1);
-    
+
     int width;
     int height;
-    width=height=894;
+    width = height = 894;
     unsigned char * tex = LoadJPEG("../../Texturas/grass_texture.jpg", &width, &height);
-    glGenTextures(1 ,&grassTexture);
-    glBindTexture( GL_TEXTURE_2D, grassTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &grassTexture);
+    glBindTexture(GL_TEXTURE_2D, grassTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    width=height=894;
+
+    width = height = 894;
     tex = LoadJPEG("../../Texturas/stone_texture.jpg", &width, &height);
-    glGenTextures(1 ,&stoneTexture);
-    glBindTexture( GL_TEXTURE_2D, stoneTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &stoneTexture);
+    glBindTexture(GL_TEXTURE_2D, stoneTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    width=height=600;
+
+    width = height = 600;
     tex = LoadJPEG("../../Texturas/street_texture.jpg", &width, &height);
-    glGenTextures(1 ,&streetTexture);
-    glBindTexture( GL_TEXTURE_2D, streetTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &streetTexture);
+    glBindTexture(GL_TEXTURE_2D, streetTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    width=height=1111;
+
+    width = height = 1111;
     tex = LoadJPEG("../../Texturas/marble_texture.jpg", &width, &height);
-    glGenTextures(1 ,&marbleTexture);
-    glBindTexture( GL_TEXTURE_2D, marbleTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &marbleTexture);
+    glBindTexture(GL_TEXTURE_2D, marbleTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    width=863;
-    height=996;
+
+    width = 863;
+    height = 996;
     tex = LoadJPEG("../../Texturas/door_texture.jpg", &width, &height);
-    glGenTextures(1 ,&doorTexture);
-    glBindTexture( GL_TEXTURE_2D, doorTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &doorTexture);
+    glBindTexture(GL_TEXTURE_2D, doorTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    width=height=1000;
+
+    width = height = 1000;
     tex = LoadJPEG("../../Texturas/building_texture.jpg", &width, &height);
-    glGenTextures(1 ,&brickTexture);
-    glBindTexture( GL_TEXTURE_2D, brickTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glGenTextures(1, &brickTexture);
+    glBindTexture(GL_TEXTURE_2D, brickTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
+
+    width = height = 500;
+    tex = LoadJPEG("../../Texturas/bark_texture.jpg", &width, &height);
+    glGenTextures(1, &barkTexture);
+    glBindTexture(GL_TEXTURE_2D, barkTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = height = 512;
+    tex = LoadJPEG("../../Texturas/leaves_texture.jpg", &width, &height);
+    glGenTextures(1, &leavesTexture);
+    glBindTexture(GL_TEXTURE_2D, leavesTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = height = 256;
+    tex = LoadJPEG("../../Texturas/water_texture.jpg", &width, &height);
+    glGenTextures(1, &waterTexture);
+    glBindTexture(GL_TEXTURE_2D, waterTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = 900;
+    height = 602;
+    tex = LoadJPEG("../../Texturas/bridge_texture.jpg", &width, &height);
+    glGenTextures(1, &bridgeTexture);
+    glBindTexture(GL_TEXTURE_2D, bridgeTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = 512;
+    height = 512;
+    tex = LoadJPEG("../../Texturas/wall_texture.jpg", &width, &height);
+    glGenTextures(1, &brick2Texture);
+    glBindTexture(GL_TEXTURE_2D, brick2Texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = 258;
+    height = 525;
+    tex = LoadJPEG("../../Texturas/door2_texture.jpg", &width, &height);
+    glGenTextures(1, &door2Texture);
+    glBindTexture(GL_TEXTURE_2D, door2Texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    width = 1811;
+    height = 1811;
+    tex = LoadJPEG("../../Texturas/stop_texture.jpg", &width, &height);
+    glGenTextures(1, &stopTexture);
+    glBindTexture(GL_TEXTURE_2D, stopTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
 }
-
-
 
 /************************** TEscena::AddCar(TPrimitiva *car) *****************/
 
@@ -823,31 +1437,18 @@ void __fastcall TEscena::RenderRoads(bool reflejo) {
 /***************************************** TEscena::Render() *****************/
 
 void __fastcall TEscena::Render() {
-    /*glClearColor(0.0, 0.7, 0.9, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glTranslatef(view_position[0], view_position[1], view_position[2]); // Traslaci�n
-    glMultMatrixf(view_rotate); // Rotaci�n
-    glScalef(scale, scale, scale); // Escalado
-
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-
-    RenderObjects(seleccion);
-    RenderCars(seleccion);
-    RenderRoads(seleccion);
-
-    glutSwapBuffers();*/
-
     //REFLEJO
     // Clear Screen, Depth Buffer & Stencil Buffer
-    glClearColor(0.0, 0.7, 0.9, 1.0);//Color Azul
+    if (escena.ambientLights) {
+        glClearColor(0.0, 0.7, 0.9, 1.0); //Color Azul
         glLightfv(GL_LIGHT0, GL_AMBIENT, escena.light0_ambient);
-        glLightfv(GL_LIGHT1, GL_AMBIENT, escena.light1_ambient );
-        
+        glLightfv(GL_LIGHT1, GL_AMBIENT, escena.light1_ambient);
+    } else {
+        glClearColor(0.0, 0.7, 0.9, 1.0); //Color Azul
+        glLightfv(GL_LIGHT0, GL_AMBIENT, escena.disable_light_ambient);
+        glLightfv(GL_LIGHT1, GL_AMBIENT, escena.disable_light_ambient);
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Clip Plane Equations
@@ -871,12 +1472,15 @@ void __fastcall TEscena::Render() {
     glDisable(GL_DEPTH_TEST);
     // Disable Depth Testin
 
+    if (escena.clockWiseFaces)glFrontFace(GL_CW);
+    else glFrontFace(GL_CCW);
 
-    glEnable(GL_CULL_FACE); //ACTIVO CULLING
+
+    if (escena.culling)glEnable(GL_CULL_FACE); //ACTIVO CULLING
     RenderRoads(seleccion); //DIBUJO										// Draw The Floor (Draws To The Stencil Buffer)
     glDisable(GL_CULL_FACE); //DESACTIVO CULL
 
-    glEnable(GL_DEPTH_TEST);
+    if (escena.z_buffer)glEnable(GL_DEPTH_TEST);
 
     glColorMask(1, 1, 1, 1); // Set Color Mask to TRUE, TRUE, TRUE, TRUE
     glStencilFunc(GL_EQUAL, 1, 1); // We Draw Only Where The Stencil Is 1
@@ -891,10 +1495,11 @@ void __fastcall TEscena::Render() {
     RenderObjects(seleccion);
     RenderCars(seleccion);
 
-    
+
     glPopMatrix(); // Pop The Matrix Off The Stack
     glDisable(GL_CLIP_PLANE0); // Disable Clip Plane For Drawing The Floor
     glDisable(GL_STENCIL_TEST); // We Don't Need The Stencil Buffer Any More (Disable)
+
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
     glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 
@@ -904,15 +1509,15 @@ void __fastcall TEscena::Render() {
     RenderRoads(seleccion); //DIBUJO
     glEnable(GL_LIGHTING); // Enable Lighting
     glDisable(GL_BLEND);
-    
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable( GL_BLEND );
 
-        RenderObjects(seleccion);
-        RenderCars(seleccion);										// Draw The Ball
-        glutSwapBuffers();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    RenderObjects(seleccion);
+    RenderCars(seleccion); // Draw The Ball
+    glutSwapBuffers();
     glDisable(GL_BLEND);
-     
+
 }
 
 // Selecciona un objeto a trav�s del rat�n
@@ -1005,15 +1610,44 @@ void __fastcall TGui::Init(int main_window) {
     /*** Crea a ventana lateral ***/
     glui = GLUI_Master.create_glui_subwindow(window_id, GLUI_SUBWINDOW_RIGHT);
 
-    obj_panel = new GLUI_Rollout(glui, "Propiedades", true);
+    /*** MODO DE VISUALIZACION***/
+    GLUI_Panel *visualization_mode = new GLUI_Rollout(glui, "Modo", false);
+
+    vis_group = glui->add_radiogroup_to_panel(visualization_mode, &escena.projection, PROJECTION_ID, controlCallback);
+    GLUI_RadioButton *persp_radio = glui->add_radiobutton_to_group(vis_group, "Perspectiva");
+    GLUI_RadioButton *orto_radio = glui->add_radiobutton_to_group(vis_group, "Ortogonal");
+
+    new GLUI_StaticText(glui, "");
+
+    obj_panel = new GLUI_Rollout(glui, "Propiedades", false);
 
     /***** Control para las propiedades de escena *****/
 
-    new GLUI_Checkbox(obj_panel, "Modo Alambrico", &escena.wireframe, 1, controlCallback);
-    new GLUI_Checkbox(obj_panel, "Z Buffer", &escena.z_buffer, 1, controlCallback);
+    new GLUI_Checkbox(obj_panel, "Modo Alambrico", &escena.wireframe, WIREFRAME_ID, controlCallback);
+    new GLUI_Checkbox(obj_panel, "Z Buffer", &escena.z_buffer, ZBUFFER_ID, controlCallback);
     new GLUI_Checkbox(obj_panel, "Culling", &escena.culling, 1, controlCallback);
+    new GLUI_Checkbox(obj_panel, "Luz Ambiente", &escena.ambientLights, 1, controlCallback);
+    new GLUI_Checkbox(obj_panel, "Sentido Horario", &escena.clockWiseFaces, 1, controlCallback);
+
+    new GLUI_StaticText(glui, "");
+    /*** CAMARAS***/
+    GLUI_Panel *camera_panel = new GLUI_Rollout(glui, "Camaras", false);
+    GLUI_RadioGroup *camera_group = glui->add_radiogroup_to_panel(camera_panel);
+    GLUI_RadioButton *air_radio = glui->add_radiobutton_to_group(camera_group, "Aerea");
+    GLUI_RadioButton *static_radio = glui->add_radiobutton_to_group(camera_group, "Estatica");
+    GLUI_RadioButton *follow_radio = glui->add_radiobutton_to_group(camera_group, "Seguimiento coche 1");
+    GLUI_RadioButton *follow2_radio = glui->add_radiobutton_to_group(camera_group, "Seguimiento coche 2");
+
+    new GLUI_StaticText(glui, "");
+    /*** Sombreado***/
+    GLUI_Panel *shadowing_panel = new GLUI_Rollout(glui, "Sombreado", false);
+    GLUI_RadioGroup *shadowing_group = glui->add_radiogroup_to_panel(shadowing_panel, &escena.shadowing, SHADOWING_ID, controlCallback);
+    GLUI_RadioButton *sharp_radio = glui->add_radiobutton_to_group(shadowing_group, "Plano");
+    GLUI_RadioButton *soft_radio = glui->add_radiobutton_to_group(shadowing_group, "Suavizado");
+
 
     /******** A�ade controles para las luces ********/
+
 
     // A�ade una separaci�n
     new GLUI_StaticText(glui, "");
@@ -1057,7 +1691,7 @@ void __fastcall TGui::Init(int main_window) {
     new GLUI_StaticText(glui, "");
 
     /***  Rollout de Opciones ***/
-    GLUI_Rollout *options = new GLUI_Rollout(glui, "Opciones", true);
+    GLUI_Rollout *options = new GLUI_Rollout(glui, "Opciones", false);
     new GLUI_Checkbox(options, "Dibujar Coche", &escena.show_car);
     new GLUI_Checkbox(options, "Dibujar Ruedas", &escena.show_wheels);
     new GLUI_Checkbox(options, "Dibujar Carretera", &escena.show_road);
@@ -1081,7 +1715,7 @@ void __fastcall TGui::Init(int main_window) {
     new GLUI_StaticText(glui, "");
 
     new GLUI_StaticText(glui, "Autor: Juan Puchol (C) 2012");
-
+    new GLUI_StaticText(glui, "Alumno: Jorge Torregrosa Lloret 2013");
     // A�ade una separaci�n
     new GLUI_StaticText(glui, "");
 
@@ -1164,6 +1798,34 @@ void __fastcall TGui::ControlCallback(int control) {
         //memcpy(escena.view_rotate,view_rotate_c,16*sizeof(float));
         view_rot->reset();
         escena.scale = 1.0;
+    } else if (control == PROJECTION_ID) {
+        int tx, ty, tw, th;
+        GLUI_Master.get_viewport_area(&tx, &ty, &tw, &th);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        switch (escena.projection) {
+            case PERSPECTIVE_PROJ:
+            {
+                gluPerspective(45, escena.xy_aspect, 1.0, 1000.0);
+                break;
+            }
+            case ORTHOGRAPHIC_PROJ:
+            {
+                glOrtho(-4 * escena.xy_aspect, 4 * escena.xy_aspect, -4, 4, -1000, 1000);
+                break;
+            }
+            glMatrixMode(GL_MODELVIEW);
+        }
+    } else if (WIREFRAME_ID) {
+        if (escena.wireframe)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        else
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    } else if (SHADOWING_ID) {
+        if (escena.shadowing)
+            glShadeModel(GL_SMOOTH);
+        else
+            glShadeModel(GL_FLAT);
     }
 
 }
@@ -1208,11 +1870,77 @@ void __fastcall TGui::Reshape(int x, int y) {
 /***************************************** gui::motion() **********/
 
 void __fastcall TGui::Motion(int x, int y) {
+    if (escena.move_valid) {
+        if (escena.mouse_b == 3) {
+            if (escena.space_pressed) {
+                if (escena.control_pressed) {
+                    escena.view_position[2] -= 0.1*(escena.last_y - y);
+                } else {
+                    escena.view_position[0] -= 0.1*(escena.last_x - x);
+                    escena.view_position[1] -= 0.1*(escena.last_y - y);
+                }
+            } else {
+                float rot[16];
+                glGetFloatv(GL_MODELVIEW_MATRIX, rot);
+                glMatrixMode(GL_MODELVIEW);
+                glPushMatrix();
+                glLoadIdentity();
+                if (escena.control_pressed) {
+                    if (x >= escena.last_x)glRotated(x - escena.last_x * 0.01, 0, 0, 1);
+                    else glRotated(escena.last_x - x * 0.01, 0, 0, 1);
+                } else {
+                    if (y >= escena.last_y)glRotated(y - escena.last_y * 0.01, 1, 0, 0);
+                    else glRotated(escena.last_y - y * 0.01, 1, 0, 0);
+
+                    if (x >= escena.last_x)glRotated(x - escena.last_x * 0.01, 0, 1, 0);
+                    else glRotated(escena.last_x - x * 0.01, 0, 1, 0);
+                }
+                glGetFloatv(GL_MODELVIEW_MATRIX, rot);
+                view_rot->set_float_array_val(rot);
+                glPopMatrix();
+            }
+        } else if (escena.mouse_b == 1) {//ESCALADO (TRASLACION SOBRE EL EJE Z)
+            int sx = 0;
+            int sy = 0;
+            int sz = 0;
+            
+            if (escena.control_pressed) {
+                    sz = x - escena.last_x * 0.01;
+                } else {
+                    sx = x - escena.last_x * 0.01;
+                    sy = y - escena.last_y * 0.01;
+                }
+                 int tx, ty, tw, th;
+                 GLUI_Master.get_viewport_area(&tx, &ty, &tw, &th);
+                 glMatrixMode(GL_PROJECTION);
+                 glLoadIdentity();
+                      gluPerspective (45+sx, escena.xy_aspect,1.0, 1000.0);
+                 glMatrixMode(GL_MODELVIEW);
+        }
+    }
+    escena.last_x = x;
+    escena.last_y = y;
+
     glutPostRedisplay();
 }
 
 /***************************************** gui::Mouse() **********/
 
 void __fastcall TGui::Mouse(int button, int button_state, int x, int y) {
-    escena.Pick3D(x, y);
+    if (button_state == GLUT_DOWN) {//BOTON CLICKADO
+        if (button == GLUT_LEFT_BUTTON)
+            escena.mouse_b = 3; //ASIGNAMOS A LA VARIABLE EL VALOR 1
+        else if (button == GLUT_MIDDLE_BUTTON)
+            escena.mouse_b = 2; //ASIGNAMOS A LA VARIABLE EL VALOR 2
+        else if (button == GLUT_RIGHT_BUTTON)
+            escena.mouse_b = 1; //ASIGNAMOS A LA VARIABLE EL VALOR 3
+
+    } else if (button_state == GLUT_UP) {//BOTON LEVANTADO
+        escena.mouse_b = 0;
+        if (button == GLUT_LEFT_BUTTON)//SELECCIONAREMOS EL OBJETO CUANDO LEVANTEMOS EL BOTON DEL RATON
+            escena.Pick3D(x, y);
+
+    }
+
+    escena.move_valid = button_state == GLUT_DOWN;
 }

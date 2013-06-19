@@ -7,13 +7,13 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=MinGW-CODEBLOCKS-Windows
-CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW-CODEBLOCKS-Windows
+CND_PLATFORM_Debug=MinGW_CODEBLOCKS-Windows
+CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW_CODEBLOCKS-Windows
 CND_ARTIFACT_NAME_Debug=caropengl
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-CODEBLOCKS-Windows/caropengl
-CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-CODEBLOCKS-Windows/package
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW_CODEBLOCKS-Windows/caropengl
+CND_PACKAGE_DIR_Debug=dist/Debug/MinGW_CODEBLOCKS-Windows/package
 CND_PACKAGE_NAME_Debug=caropengl.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-CODEBLOCKS-Windows/package/caropengl.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW_CODEBLOCKS-Windows/package/caropengl.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW-CODEBLOCKS-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW-CODEBLOCKS-Windows
